@@ -12,6 +12,11 @@
 		F0DA1613232F8729005DAC39 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F0DA1611232F8729005DAC39 /* Main.storyboard */; };
 		F0DA1615232F8729005DAC39 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0DA1614232F8729005DAC39 /* Assets.xcassets */; };
 		F0DA1618232F8729005DAC39 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F0DA1616232F8729005DAC39 /* LaunchScreen.storyboard */; };
+		F0DA1620232F9AB8005DAC39 /* MovieListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DA161F232F9AB8005DAC39 /* MovieListViewController.swift */; };
+		F0DA1622232F9B0B005DAC39 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DA1621232F9B0B005DAC39 /* APIManager.swift */; };
+		F0DA1624232F9FD8005DAC39 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DA1623232F9FD8005DAC39 /* Movie.swift */; };
+		F0DA1627232FF654005DAC39 /* ListMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DA1625232FF654005DAC39 /* ListMovieTableViewCell.swift */; };
+		F0DA1628232FF654005DAC39 /* ListMovieTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0DA1626232FF654005DAC39 /* ListMovieTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +27,11 @@
 		F0DA1614232F8729005DAC39 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F0DA1617232F8729005DAC39 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F0DA1619232F8729005DAC39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F0DA161F232F9AB8005DAC39 /* MovieListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewController.swift; sourceTree = "<group>"; };
+		F0DA1621232F9B0B005DAC39 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		F0DA1623232F9FD8005DAC39 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		F0DA1625232FF654005DAC39 /* ListMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMovieTableViewCell.swift; sourceTree = "<group>"; };
+		F0DA1626232FF654005DAC39 /* ListMovieTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListMovieTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +70,11 @@
 				F0DA1614232F8729005DAC39 /* Assets.xcassets */,
 				F0DA1616232F8729005DAC39 /* LaunchScreen.storyboard */,
 				F0DA1619232F8729005DAC39 /* Info.plist */,
+				F0DA161F232F9AB8005DAC39 /* MovieListViewController.swift */,
+				F0DA1621232F9B0B005DAC39 /* APIManager.swift */,
+				F0DA1623232F9FD8005DAC39 /* Movie.swift */,
+				F0DA1625232FF654005DAC39 /* ListMovieTableViewCell.swift */,
+				F0DA1626232FF654005DAC39 /* ListMovieTableViewCell.xib */,
 			);
 			path = Assignment;
 			sourceTree = "<group>";
@@ -124,6 +139,7 @@
 			files = (
 				F0DA1618232F8729005DAC39 /* LaunchScreen.storyboard in Resources */,
 				F0DA1615232F8729005DAC39 /* Assets.xcassets in Resources */,
+				F0DA1628232FF654005DAC39 /* ListMovieTableViewCell.xib in Resources */,
 				F0DA1613232F8729005DAC39 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,7 +151,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0DA1627232FF654005DAC39 /* ListMovieTableViewCell.swift in Sources */,
+				F0DA1622232F9B0B005DAC39 /* APIManager.swift in Sources */,
 				F0DA1610232F8729005DAC39 /* ViewController.swift in Sources */,
+				F0DA1624232F9FD8005DAC39 /* Movie.swift in Sources */,
+				F0DA1620232F9AB8005DAC39 /* MovieListViewController.swift in Sources */,
 				F0DA160E232F8729005DAC39 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
