@@ -32,7 +32,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="Mqi-Hs-34q">
-                        <barButtonItem key="rightBarButtonItem" title="Sort" id="Bxs-63-cvp"/>
+                        <barButtonItem key="rightBarButtonItem" title="Sort" id="Bxs-63-cvp">
+                            <connections>
+                                <action selector="sortButton:" destination="BYZ-38-t0r" id="37z-nc-kjD"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="jlU-6G-AlV" id="Nda-LZ-cOu"/>

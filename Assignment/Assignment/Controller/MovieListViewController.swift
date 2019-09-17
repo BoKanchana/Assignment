@@ -10,6 +10,20 @@ import UIKit
 
 class MovieListViewController: UIViewController, UIScrollViewDelegate {
   @IBOutlet weak var tableView: UITableView!
+  @IBAction func sortButton(_ sender: Any) {
+    let optionMenu = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
+    
+    let deleteAction = UIAlertAction(title: "ASD", style: .default)
+    let saveAction = UIAlertAction(title: "DESC", style: .default)
+    
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+    optionMenu.addAction(deleteAction)
+    optionMenu.addAction(saveAction)
+    optionMenu.addAction(cancelAction)
+    
+    self.present(optionMenu, animated: true, completion: nil)
+  }
   
   var movies: [Movie] = []
   var movie: Movie?
