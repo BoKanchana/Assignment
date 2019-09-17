@@ -16,6 +16,7 @@ class MovieListViewController: UIViewController, UIScrollViewDelegate {
   @IBOutlet weak var tableView: UITableView!
   
   var movies: [Movie] = []
+  var movie: Movie?
   var page: Int = 1
   var sort: String = "release_date.desc"
   
@@ -25,16 +26,18 @@ class MovieListViewController: UIViewController, UIScrollViewDelegate {
     let bundle = Bundle(for: ListMovieTableViewCell.self)
     let nib = UINib(nibName: "ListMovieTableViewCell", bundle: bundle)
     tableView.register(nib, forCellReuseIdentifier: "ListMovieTableViewCell")
-    getMovie(sort: self.sort)
+    getMovie(page: self.page, sort: self.sort)
   }
   
-  func getMovie(sort: String) {
+  func getMovie(page: Int, sort: String) {
     APIManager().getMoviesList(page: page, sort: sort) { [weak self] result in
       switch result {
       case .success(let movies):
         self?.movies = movies.results
-        self?.tableView.reloadData()
-        self?.page += 1
+        DispatchQueue.main.async {
+          self?.tableView.reloadData()
+          self?.page += 1
+        }
       case .failure(_):
         let alert = UIAlertController(title: "Error", message: "No data found, please try again", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Close", style: .default, handler: nil))
@@ -43,13 +46,21 @@ class MovieListViewController: UIViewController, UIScrollViewDelegate {
     }
   }
   
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let offsetY = scrollView.contentOffset.y
-    let contentHeight = scrollView.contentSize.height
-    if offsetY > contentHeight - scrollView.frame.height {
-      getMovie(sort: sort)
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "showMovieDetail" {
+      if let viewController = segue.destination as? MovieDetailViewController {
+        viewController.movie = movie
+      }
     }
   }
+  
+//  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//    let offsetY = scrollView.contentOffset.y
+//    let contentHeight = scrollView.contentSize.height
+//    if offsetY > contentHeight - scrollView.frame.height {
+//      getMovie(page: page, sort: sort)
+//    }
+//  }
 }
 
 extension MovieListViewController: UITableViewDataSource {
@@ -65,10 +76,11 @@ extension MovieListViewController: UITableViewDataSource {
     cell.setUI(movie: movie)
     return cell
   }
-  
-  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    if indexPath.row == movies.count - 1 {
-      getMovie(sort: sort)
-    }
+}
+
+extension MovieListViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    self.movie = movies[indexPath.row]
+    self.performSegue(withIdentifier: "showMovieDetail", sender: nil)
   }
 }

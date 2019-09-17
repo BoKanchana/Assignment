@@ -22,9 +22,9 @@ class APIManager {
         request(urlString: urlString, completion: completion)
     }
     
-    func getMovieImages(imagePath: String) {
-        let urlString = "\(baseUrl)\(imagePath)"
-        print("image url: \(urlString)")
+    func getMovieDetail(id: Int, completion: @escaping(Result<MovieDetail, APIError>) -> Void) {
+      let urlString = "https://api.themoviedb.org/3/movie/\(id)?api_key=\(apiKey)"
+      request(urlString: urlString, completion: completion)
     }
     
     private func request<T: Codable>(urlString: String, completion: @escaping (Result<T, APIError>) -> Void) {

@@ -23,14 +23,19 @@ struct Movie: Codable {
     var vote_average: Float
     var backdrop_path: String?
     var poster_path: String?
-    
-//    private enum CodingKeys: String, CodingKey {
-//        case id
-//        case title
-//        case popularity
-//        case voteCount = "vote_count"
-//        case voteAverage = "vote_average"
-//        case backdropPath = "backdrop_path"
-//        case posterPath = "poster_path"
-//    }
+}
+
+struct MovieDetail: Codable {
+  var id: Int
+  var title: String
+  var overview: String
+  var original_language: String
+  var vote_average: Float
+  var genres: [genre]
+  var poster_path: String
+}
+
+struct genre: Codable {
+  var id: Int
+  var name: String
 }
