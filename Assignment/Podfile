@@ -7,5 +7,7 @@ target 'Assignment' do
 
   # Pods for Assignment
   pod 'Kingfisher'
+  pod 'Cosmos'
+  pod 'TinyConstraints'
 
 end
