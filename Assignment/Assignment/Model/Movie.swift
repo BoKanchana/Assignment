@@ -19,8 +19,8 @@ struct Movie: Codable {
     var id: Int
     var title: String
     var popularity: Float
-    var vote_count: Int
-    var vote_average: Float
+    var vote_count: Double
+    var vote_average: Double
     var backdrop_path: String?
     var poster_path: String?
 }

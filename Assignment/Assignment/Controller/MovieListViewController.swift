@@ -81,4 +81,8 @@ extension MovieListViewController: UITableViewDelegate {
     self.movie = movies[indexPath.row]
     self.performSegue(withIdentifier: "showMovieDetail", sender: nil)
   }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    self.tableView.reloadData()
+  }
 }
