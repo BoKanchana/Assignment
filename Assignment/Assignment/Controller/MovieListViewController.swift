@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol MovieListViewControllerProtocol {
-  func presentMoviesList()
-}
-
 class MovieListViewController: UIViewController, UIScrollViewDelegate {
   @IBOutlet weak var tableView: UITableView!
   
@@ -19,14 +15,16 @@ class MovieListViewController: UIViewController, UIScrollViewDelegate {
   var movie: Movie?
   var page: Int = 1
   var sort: String = "release_date.desc"
+
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    getMovie(page: self.page, sort: self.sort)
     
     let bundle = Bundle(for: ListMovieTableViewCell.self)
     let nib = UINib(nibName: "ListMovieTableViewCell", bundle: bundle)
     tableView.register(nib, forCellReuseIdentifier: "ListMovieTableViewCell")
-    getMovie(page: self.page, sort: self.sort)
+    
   }
   
   func getMovie(page: Int, sort: String) {

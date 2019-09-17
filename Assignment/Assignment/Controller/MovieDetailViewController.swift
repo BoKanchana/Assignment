@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Cosmos
+import TinyConstraints
 
 class MovieDetailViewController: UIViewController {
   @IBOutlet weak var posterImage: UIImageView!
@@ -17,19 +19,50 @@ class MovieDetailViewController: UIViewController {
   
   var movie: Movie?
   var movieDetail: MovieDetail?
+  var vote: Double = 0.0
+  
+  lazy var cosmosView: CosmosView = {
+    var view = CosmosView()
+    
+    view.rating = self.vote
+    view.settings.totalStars = 5
+    view.settings.starSize = 30
+    view.settings.fillMode = .half
+    return view
+  }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    checkVoting()
+    
+    view.addSubview(cosmosView)
+    cosmosView.centerInSuperview()
+    
+    cosmosView.didFinishTouchingCosmos = { rating in
+      let vote = rating * 2
+      self.setVoting(vote: vote)
+    }
     getMovieDetail(id: movie!.id)
   }
   
+  func checkVoting() {
+    for (key, value) in UserDefaults.standard.dictionaryRepresentation() {
+      if Int(key) == movie?.id {
+        let values = value as! Double / 2
+        self.vote = values
+      }
+    }
+  }
+  
+  func setVoting(vote: Double) {
+    UserDefaults.standard.set(vote, forKey: "\(movie!.id)")
+  }
+  
   func getMovieDetail(id: Int) {
-    
       APIManager().getMovieDetail(id: id) { [weak self] result in
         switch result {
         case .success(let movieDetail):
           self?.movieDetail = movieDetail
-          print("genres\(movieDetail.genres)")
           DispatchQueue.main.async {
             self?.setUI()
           }
@@ -60,5 +93,4 @@ class MovieDetailViewController: UIViewController {
     }
     
   }
-  
 }
