@@ -16,6 +16,16 @@ class MovieListViewController: UIViewController, UIScrollViewDelegate {
   var page: Int = 1
   var sort: String = "release_date.desc"
   
+  lazy var refreshControl: UIRefreshControl = {
+    let refreshControl = UIRefreshControl()
+    refreshControl.addTarget(self, action:
+      #selector(MovieListViewController.handleRefresh(_:)),
+                             for: UIControl.Event.valueChanged)
+    refreshControl.tintColor = UIColor.gray
+
+    return refreshControl
+  }()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     getMovie(page: self.page, sort: self.sort)
@@ -24,21 +34,33 @@ class MovieListViewController: UIViewController, UIScrollViewDelegate {
     let nib = UINib(nibName: "ListMovieTableViewCell", bundle: bundle)
     tableView.register(nib, forCellReuseIdentifier: "ListMovieTableViewCell")
     
+    self.tableView.addSubview(self.refreshControl)
+    
+  }
+  
+  @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+    self.page = 1
+    self.getMovie(page: self.page, sort: self.sort)
+    refreshControl.endRefreshing()
   }
   
   @IBAction func sortButton(_ sender: Any) {
     let optionMenu = UIAlertController(title: "Sort by relase date", message: "Choose Option", preferredStyle: .actionSheet)
     
     let ascending = UIAlertAction(title: "ASC", style: .default, handler: { _ in
-      self.sortListMovies(sort: "release_date.asc")
+      self.page = 1
+      self.sort = "release_date.asc"
+      self.getMovie(page: self.page, sort: self.sort)
     })
     let descending = UIAlertAction(title: "DESC", style: .default, handler: { _ in
-      self.sortListMovies(sort: "release_date.desc")
+      self.page = 1
+      self.sort = "release_date.desc"
+      self.getMovie(page: self.page, sort: self.sort)
     })
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
     
-    optionMenu.addAction(ascending)
     optionMenu.addAction(descending)
+    optionMenu.addAction(ascending)
     optionMenu.addAction(cancelAction)
     
     self.present(optionMenu, animated: true, completion: nil)
@@ -48,27 +70,15 @@ class MovieListViewController: UIViewController, UIScrollViewDelegate {
     APIManager().getMoviesList(page: page, sort: sort) { [weak self] result in
       switch result {
       case .success(let movies):
-        self?.movies.append(contentsOf: movies.results)
+        if page == 1 {
+          self?.movies = movies.results
+        } else {
+          self?.movies.append(contentsOf: movies.results)
+        }
         DispatchQueue.main.async {
           self?.tableView.reloadData()
           self?.page += 1
           print("page \(self?.page)")
-        }
-      case .failure(_):
-        self?.showErrorMessage()
-      }
-    }
-  }
-  
-  func sortListMovies(sort: String) {
-    self.page = 1
-    APIManager().getMoviesList(page: page, sort: sort) { [weak self] result in
-      switch result {
-      case .success(let movies):
-        self?.movies = movies.results
-        DispatchQueue.main.async {
-          self?.tableView.reloadData()
-          print("page: \(self?.page)")
         }
       case .failure(_):
         self?.showErrorMessage()

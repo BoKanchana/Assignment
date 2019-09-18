@@ -34,7 +34,7 @@ class ListMovieTableViewCell: UITableViewCell {
     popularityLabel.text = "\(movie.popularity)"
     
     let avg = UserDefaults.standard.double(forKey: "\(movie.id)")
-    var movieAverage = ((movie.vote_count * movie.vote_average) + avg) / (movie.vote_count + 1)
+    let movieAverage = ((movie.vote_count * movie.vote_average) + avg) / (movie.vote_count + 1)
     avgVoteLabel.text = "\(round(movieAverage))"
   
     
