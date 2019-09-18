@@ -19,14 +19,15 @@ class MovieDetailViewController: UIViewController {
   
   var movie: Movie?
   var movieDetail: MovieDetail?
-  var vote: Double = 0.0
+  var vote: Double = 0
   
   lazy var cosmosView: CosmosView = {
     var view = CosmosView()
     
     view.rating = self.vote
+    view.settings.minTouchRating = 0
     view.settings.totalStars = 5
-    view.settings.starSize = 30
+    view.settings.starSize = 34
     view.settings.fillMode = .half
     return view
   }()

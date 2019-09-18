@@ -32,15 +32,11 @@ class ListMovieTableViewCell: UITableViewCell {
     
     titleLabel.text = movie.title
     popularityLabel.text = "\(movie.popularity)"
-    avgVoteLabel.text = "\(movie.vote_average)"
     
-    for (key, value) in UserDefaults.standard.dictionaryRepresentation() {
-      if Int(key) == movie.id, movie.vote_count != 0 {
-        let values = value as! Double
-        let avg = ((movie.vote_count * movie.vote_average) + values) / (movie.vote_count + 1)
-        avgVoteLabel.text = "\(avg)"
-      }
-    }
+    let avg = UserDefaults.standard.double(forKey: "\(movie.id)")
+    var movieAverage = ((movie.vote_count * movie.vote_average) + avg) / (movie.vote_count + 1)
+    avgVoteLabel.text = "\(round(movieAverage))"
+  
     
     if let backdrop = movie.backdrop_path {
       let urlBackdrop = URL(string: "\(baseUrl)\(backdrop)")

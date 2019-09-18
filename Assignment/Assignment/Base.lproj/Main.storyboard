@@ -61,7 +61,7 @@
                                     <constraint firstAttribute="height" constant="325" id="WpN-ja-tYQ"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aTb-MU-ZRV">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aTb-MU-ZRV">
                                 <rect key="frame" x="13" y="513" width="414" height="27.5"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="20"/>
                                 <nil key="textColor"/>
@@ -119,13 +119,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="aTb-MU-ZRV" firstAttribute="top" secondItem="ntY-Wg-2a4" secondAttribute="bottom" constant="100" id="D14-aK-HB8"/>
                             <constraint firstItem="12S-Sx-AcG" firstAttribute="leading" secondItem="cnm-03-7Lc" secondAttribute="leading" constant="13" id="G1B-rx-NaR"/>
                             <constraint firstItem="wmh-6a-CSH" firstAttribute="leading" secondItem="cnm-03-7Lc" secondAttribute="leading" constant="13" id="G2e-11-74t"/>
                             <constraint firstItem="ntY-Wg-2a4" firstAttribute="top" secondItem="cnm-03-7Lc" secondAttribute="top" id="JaJ-qh-hTL"/>
                             <constraint firstItem="ntY-Wg-2a4" firstAttribute="trailing" secondItem="cnm-03-7Lc" secondAttribute="trailing" id="NXe-04-FN4"/>
                             <constraint firstItem="cnm-03-7Lc" firstAttribute="trailing" secondItem="12S-Sx-AcG" secondAttribute="trailing" constant="13" id="Owl-de-mMg"/>
                             <constraint firstItem="aTb-MU-ZRV" firstAttribute="leading" secondItem="cnm-03-7Lc" secondAttribute="leading" constant="13" id="S8q-eW-Yzz"/>
-                            <constraint firstItem="aTb-MU-ZRV" firstAttribute="top" secondItem="ntY-Wg-2a4" secondAttribute="bottom" constant="100" id="U5e-Ft-Xya"/>
                             <constraint firstItem="cnm-03-7Lc" firstAttribute="trailing" secondItem="wmh-6a-CSH" secondAttribute="trailing" constant="13" id="WhC-bR-HOw"/>
                             <constraint firstItem="cnm-03-7Lc" firstAttribute="trailing" secondItem="KUb-Bf-f7b" secondAttribute="trailing" constant="13" id="kUX-Ga-Fmy"/>
                             <constraint firstItem="KUb-Bf-f7b" firstAttribute="top" secondItem="wmh-6a-CSH" secondAttribute="bottom" constant="13" id="lpO-iv-WPm"/>
