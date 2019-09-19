@@ -15,15 +15,16 @@ enum APIError: Error {
 
 class APIManager {
     let apiKey: String = "328c283cd27bd1877d9080ccb1604c91"
-    let baseUrl: String = "https://image.tmdb.org/t/p/original"
+    // please use baseURL
+    let baseUrl: String = "https://api.themoviedb.org/3"
     
     func getMoviesList(page: Int, sort: String, completion: @escaping(Result<ListMovie, APIError>) -> Void) {
-        let urlString = "http://api.themoviedb.org/3/discover/movie?api_key=\(apiKey)&primary_release_date.lte=2016-12-31&sort_by=\(sort)&page=\(page)"
+        let urlString = "\(baseUrl)/discover/movie?api_key=\(apiKey)&primary_release_date.lte=2016-12-31&sort_by=\(sort)&page=\(page)"
         request(urlString: urlString, completion: completion)
     }
     
     func getMovieDetail(id: Int, completion: @escaping(Result<MovieDetail, APIError>) -> Void) {
-      let urlString = "https://api.themoviedb.org/3/movie/\(id)?api_key=\(apiKey)"
+      let urlString = "\(baseUrl)/movie/\(id)?api_key=\(apiKey)"
       request(urlString: urlString, completion: completion)
     }
     

@@ -13,50 +13,55 @@ import TinyConstraints
 class MovieDetailViewController: UIViewController {
   @IBOutlet weak var posterImage: UIImageView!
   @IBOutlet weak var titleLabel: UILabel!
-  @IBOutlet weak var overviewLabel: UITextView!
+  @IBOutlet weak var overviewLabel: UILabel!
   @IBOutlet weak var genreLabel: UILabel!
   @IBOutlet weak var languageLabel: UILabel!
+  @IBOutlet weak var starVotingView: CosmosView!
   
-  var movie: Movie?
+  // change to store only movie id
+  var id: Int?
+//  var movie: Movie?
   var movieDetail: MovieDetail?
-  var vote: Double = 0
-  
-  lazy var cosmosView: CosmosView = {
-    var view = CosmosView()
-    
-    view.rating = self.vote
-    view.settings.minTouchRating = 0
-    view.settings.totalStars = 5
-    view.settings.starSize = 34
-    view.settings.fillMode = .half
-    return view
-  }()
+  // no need
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    checkVoting()
-    
-    view.addSubview(cosmosView)
-    cosmosView.centerInSuperview()
-    
-    cosmosView.didFinishTouchingCosmos = { rating in
-      let vote = rating * 2
-      self.setVoting(vote: vote)
+    // remove force unwrapped
+    if let id = id {
+      getMovieDetail(id: id)
     }
-    getMovieDetail(id: movie!.id)
+    
+    // set as function
+    checkVoting()
+    setStarforVoting()
   }
   
   func checkVoting() {
-    for (key, value) in UserDefaults.standard.dictionaryRepresentation() {
-      if Int(key) == movie?.id {
-        let values = value as! Double / 2
-        self.vote = values
-      }
+    // use id to get vote
+    if let id = id {
+      let value = UserDefaults.standard.double(forKey: "\(id)")
+      let vote = value / 2.0
+      starVotingView.rating = vote
+    }
+  }
+  
+  func setStarforVoting() {
+    starVotingView.settings.minTouchRating = 0
+    starVotingView.settings.fillMode = .half
+    starVotingView.settings.totalStars = 5
+    
+    starVotingView.didFinishTouchingCosmos = { rating in
+      let vote = rating * 2
+      self.setVoting(vote: vote)
     }
   }
   
   func setVoting(vote: Double) {
-    UserDefaults.standard.set(vote, forKey: "\(movie!.id)")
+    // remove force unwrapped
+    if let id = id {
+      UserDefaults.standard.set(vote, forKey: "\(id)")
+      print("id: \(id)")
+    }
   }
   
   func getMovieDetail(id: Int) {
@@ -65,7 +70,7 @@ class MovieDetailViewController: UIViewController {
         case .success(let movieDetail):
           self?.movieDetail = movieDetail
           DispatchQueue.main.async {
-            self?.setUI()
+            self?.updateUI()
           }
         case .failure(_):
           let alert = UIAlertController(title: "Error", message: "No data found, please try again", preferredStyle: .alert)
@@ -75,7 +80,8 @@ class MovieDetailViewController: UIViewController {
       }
   }
   
-  func setUI() {
+  // updateUI
+  func updateUI() {
     let baseUrl: String = "https://image.tmdb.org/t/p/original"
     
     titleLabel.text = movieDetail?.title
@@ -84,8 +90,15 @@ class MovieDetailViewController: UIViewController {
     
     if let collection = movieDetail?.genres {
       if !collection.isEmpty {
-        genreLabel.text = collection[0].name
+        // show all genres
+        var genres: String = ""
+        for index in collection {
+          genres.append(contentsOf: "\(index.name) ")
+        }
+        genreLabel.text = genres
       }
+    } else {
+      genreLabel.text = "-"
     }
     
     if let poster = movieDetail?.poster_path {

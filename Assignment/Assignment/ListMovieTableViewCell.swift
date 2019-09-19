@@ -32,10 +32,15 @@ class ListMovieTableViewCell: UITableViewCell {
     
     titleLabel.text = movie.title
     popularityLabel.text = "\(movie.popularity)"
+    // add user never vote this movie
     
     let avg = UserDefaults.standard.double(forKey: "\(movie.id)")
-    let movieAverage = ((movie.vote_count * movie.vote_average) + avg) / (movie.vote_count + 1)
-    avgVoteLabel.text = "\(round(movieAverage))"
+    if avg == 0 {
+      avgVoteLabel.text = "\(movie.vote_average)"
+    } else {
+      let movieAverage = ((movie.vote_count * movie.vote_average) + avg) / (movie.vote_count + 1)
+      avgVoteLabel.text = "\(round(movieAverage))"
+    }
   
     
     if let backdrop = movie.backdrop_path {

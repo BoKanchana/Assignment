@@ -8,13 +8,20 @@
 
 import UIKit
 
+// please use enum
+enum Sort {
+  case desc
+  case asc
+}
+
 class MovieListViewController: UIViewController, UIScrollViewDelegate {
   @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var loadingView: UIView!
   
   var movies: [Movie] = []
   var movie: Movie?
   var page: Int = 1
-  var sort: String = "release_date.desc"
+  var sort: Sort = .desc
   
   lazy var refreshControl: UIRefreshControl = {
     let refreshControl = UIRefreshControl()
@@ -48,14 +55,12 @@ class MovieListViewController: UIViewController, UIScrollViewDelegate {
     let optionMenu = UIAlertController(title: "Sort by relase date", message: "Choose Option", preferredStyle: .actionSheet)
     
     let ascending = UIAlertAction(title: "ASC", style: .default, handler: { _ in
-      self.page = 1
-      self.sort = "release_date.asc"
-      self.getMovie(page: self.page, sort: self.sort)
+      let sort: Sort = .asc
+      self.sortMovieList(sort: sort)
     })
     let descending = UIAlertAction(title: "DESC", style: .default, handler: { _ in
-      self.page = 1
-      self.sort = "release_date.desc"
-      self.getMovie(page: self.page, sort: self.sort)
+      let sort: Sort = .desc
+      self.sortMovieList(sort: sort)
     })
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
     
@@ -66,8 +71,23 @@ class MovieListViewController: UIViewController, UIScrollViewDelegate {
     self.present(optionMenu, animated: true, completion: nil)
   }
   
-  func getMovie(page: Int, sort: String) {
-    APIManager().getMoviesList(page: page, sort: sort) { [weak self] result in
+  func sortMovieList(sort: Sort) {
+    self.page = 1
+    getMovie(page: page, sort: sort)
+  }
+  
+  func getMovie(page: Int, sort: Sort) {
+    let sortType: String
+    self.loadingView.isHidden = false
+    
+    switch sort {
+    case .desc:
+      sortType = "release_date.desc"
+    case .asc:
+      sortType = "release_date.asc"
+    }
+    
+    APIManager().getMoviesList(page: page, sort: sortType) { [weak self] result in
       switch result {
       case .success(let movies):
         if page == 1 {
@@ -78,9 +98,11 @@ class MovieListViewController: UIViewController, UIScrollViewDelegate {
         DispatchQueue.main.async {
           self?.tableView.reloadData()
           self?.page += 1
+          self?.loadingView.isHidden = true
           print("page \(self?.page)")
         }
       case .failure(_):
+        self?.loadingView.isHidden = true
         self?.showErrorMessage()
       }
     }
@@ -94,8 +116,8 @@ class MovieListViewController: UIViewController, UIScrollViewDelegate {
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "showMovieDetail" {
-      if let viewController = segue.destination as? MovieDetailViewController {
-        viewController.movie = movie
+      if let viewController = segue.destination as? MovieDetailViewController, let sender = sender as? Int {
+        viewController.id = sender
       }
     }
   }
@@ -117,6 +139,7 @@ extension MovieListViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     if indexPath.row == movies.count - 1 {
+      // handle case loading not finish yet
       getMovie(page: page, sort: sort)
     }
   }
@@ -125,10 +148,12 @@ extension MovieListViewController: UITableViewDataSource {
 extension MovieListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     self.movie = movies[indexPath.row]
-    self.performSegue(withIdentifier: "showMovieDetail", sender: nil)
+    let id = movies[indexPath.row].id
+    self.performSegue(withIdentifier: "showMovieDetail", sender: id)
   }
   
   override func viewWillAppear(_ animated: Bool) {
     self.tableView.reloadData()
   }
 }
+
